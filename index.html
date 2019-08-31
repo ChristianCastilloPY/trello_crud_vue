@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="app" class="container mt-5">
+        <div class="row">
+            <!-- RECORREMOS LAS LISTAS -->
+            <div class="col-md-4 mt-3" v-for="(list, index) in lists" :key="index">
+                <div class="card">
+                    <!-- HEADER,NOMBRE DE LISTA, ELIMINAR,GUARDAR -->
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <h4>{{list.name}}</h4>
+                            <!-- <button v-if="list.status == 'saved'" class="btn btn-sm btn-danger">
+                                Eliminar
+                            </button> -->
+
+                            <button :class="list.status == 'creating' ? 'btn-warning' : 'btn-danger'" class="btn btn-sm"
+                                @click="removeList(index)">
+                                {{ list.status == 'creating' ? 'Cancelar' : 'Eliminar' }}
+                            </button>
+
+                        </div>
+                    </div>
+                    <!-- PLACEHOLDER & GUARDAR -->
+                    <div class="card-body">
+                        <!-- FORMULARIO PLACEHOLDER Y GUARDAR -->
+                        <form @submit.prevent="saveList(list)" action="/">
+                            <div class="form-group" v-if="list.status == 'creating'">
+                                <input class="form-control" placeholder="Nombre de la lista" 
+                                v-model="list.name">
+                            </div>
+                            <button v-if="list.status == 'creating'" 
+                            class="btn btn-primary btn-block">
+                                Guardar Lista
+                            </button>
+
+                    <!-- FORMULARIO,PLACEHOLDER & AGREGAR ITEM -->
+                            <div class="form-group d-flex justify-content-between" 
+                            v-for="(item,indice) in list.items" :key="indice">
+                                <input 
+                                    class="form-control"
+                                    placeholder="descripcion del item"
+                            >
+                            <button v-if="list.status == 'saved'"
+                             class="ml-3 col-4 form-control btn btn-sm btn-danger"
+                              @click="removeitem(index,indice)" >
+                                Eliminar Item
+                            </button>
+                            </div>
+
+                            <button 
+                                v-if="list.status == 'saved'"
+                                class="btn btn-sucess btn-block btn-primary"
+                                 @click="additems(index)">
+                                Agregar item
+                             </button>
+
+                    
+                        </form >
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- BOTON AGREGAR LISTA -->
+            <div class="col-md-4 mt-3">
+                <button class="btn rounded-0 btn-outline-dark btn-block" 
+                @click="addList">
+                    Agregar lista
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./javascript.js"></script>
+</body>
+
+</html>
